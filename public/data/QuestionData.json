@@ -1,0 +1,34 @@
+{
+	"questionData": [
+		{
+			"id": 1,
+			"question": "문제1번",
+			"answer": [
+				{
+					"id": 1,
+					"answerText": "예"
+				},
+				{
+					"id": 2,
+					"answerText": "아니오"
+				}
+			]
+		},
+		{
+			"id": 2,
+			"question": "문제2번"
+		},
+		{
+			"id": 3,
+			"question": "문제3번"
+		},
+		{
+			"id": 4,
+			"question": "문제4번"
+		},
+		{
+			"id": 5,
+			"question": "문제5번"
+		}
+	]
+}
