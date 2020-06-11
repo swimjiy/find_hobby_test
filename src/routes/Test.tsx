@@ -1,14 +1,23 @@
-import * as React from 'react';
+// import * as React from 'react';
+import * as React from 'react'
+import { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom';
 
 interface TestProps {
-	onClick(): void;
+	getIsTest(): void;
+	loading: number;
 }
 
 interface TestState {
 	data: Array<string>;
 	questionList: Array<number>;
 	stepNumber: number;
+	count: number;
+}
+
+interface ITest {
+	clickChoice(num: number): void;
+	fetchQuestions(): void;
 }
 
 interface Questions {
@@ -16,52 +25,45 @@ interface Questions {
 	question: string;
 	choice: Array<string>;
 }
-export default class Test extends React.Component<TestProps, TestState> {
-	state:TestState = {
-		data: [],
-		questionList: [],
-		stepNumber: 0,
-	}
-	fetchQuestions = async (): Promise<Array<Questions> | undefined> => {
+
+const Test: React.FC<TestProps> = (props) => {
+	const [questionList, setQuesList] = useState([]);
+	const [stepNumber, setStepNumber] = useState(1);
+	const loading = props.loading;
+	console.log("l : " , props.loading);
+	const fetchQuestions = async (): Promise<Array<Questions> | undefined> => {
 		const api = `data/QuestionData.json`;
 		try {
 			const response = await fetch(api);
 			const data = await response.json();
-			this.setState({ questionList: data.questionData });
+			setQuesList(data.questionData);
 			console.log(data);
+			console.log(props.loading);
 			return data;
 		} catch (error) {
 			console.log(error);
 			return error.message;
 		}
 	}
-	componentDidMount() {
-		this.fetchQuestions();
+	const clickChoice = (num: number): void => {
+		setStepNumber(stepNumber + 1);
 	}
-	// useEffect(() => {
-	// 	fetchQuestions()
-	// }, [stepNumber])
-	
-	render() {
-		let stepNumber = this.state.stepNumber;
-		let questionList = this.state.questionList;
-		console.log(questionList[0])
-		if (stepNumber === 12) {
-			return <Redirect to={{pathname: "/result", state: {stepNumber: this.state.stepNumber}}}/>;
+	useEffect(() => {
+		if (stepNumber === 1) {
+			fetchQuestions();
+		} else if (stepNumber === 3) {
+			props.getIsTest();
+			console.log("end");
 		}
-		return (
-			<section>
-				결과를 봅시다!
-				<button onClick={() => this.clickChoice(0)}>1번</button>
-				<button onClick={() => this.clickChoice(1)}>2번</button>
-				<div>{this.state.stepNumber}</div>
-				<Link to="/result">결과보기</Link>
-			</section>
-		)
-	}
-	clickChoice(num: number): void {
-		this.setState({
-			stepNumber: this.state.stepNumber + 1,
-		})
-	}
+	}, [stepNumber])
+	return (
+		<section>
+			결과를 봅시다!
+			<button onClick={() => clickChoice(0)}>1번</button>
+			<button onClick={() => clickChoice(1)}>2번</button>
+			<div>{stepNumber}</div>
+			<Link to="/result">결과보기</Link>
+		</section>
+	);
 }
+export default Test;
