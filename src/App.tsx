@@ -4,7 +4,6 @@ import logo from './logo.svg';
 import './App.css';
 import Home from './routes/Home'
 import Test from './routes/Test'
-import Result from './routes/Result'
 
 function App() {
   return (
@@ -14,7 +13,6 @@ function App() {
         <Switch>
           <Route exact path="/" component={Home}/>
           <Route path="/test" component={Test}/>
-          <Route path="/result" component={Result}/>
           <Redirect path="*" to="/" />
         </Switch>
       </BrowserRouter>
