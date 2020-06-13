@@ -18,7 +18,7 @@ interface QuestionState {
 
 interface IQuestion {
 	clickChoice(num: number): void;
-	calculateType(num: number): void;
+	calculateType(step: number, num: number): void;
 	fetchQuestions(): void;
 	questionList: Array<Questions>;
 }
@@ -30,6 +30,7 @@ interface Questions {
 }
 interface IQuestionList {
 	id: number;
+	type: Array<number>;
 	question: string;
 	answer?: Array<Array<number | string>>;
 }
@@ -39,6 +40,7 @@ const Question: React.FC<QuestionProps> = (props) => {
 	const [questionOne, setQuesOne] = useState<IQuestionList | any>([]);
 	const [stepNumber, setStepNumber] = useState<number>(1);
 	const [type, setType] = useState<number>(0);
+	const [calArray, setCalArray] = useState<Array<number | any>>(new Array(6).fill(0));
 	
 	const fetchQuestions = async (): Promise<Array<any> | undefined> => {
 		const api = `data/QuestionData.json`;
@@ -56,26 +58,37 @@ const Question: React.FC<QuestionProps> = (props) => {
 	const clickChoice = (num: number): void => {
 		setStepNumber(stepNumber + 1);
 		setQuesOne(questionList[stepNumber]);
-		if (num > 0)
-			calculateType(stepNumber);
-	}
-	const calculateType = (num: number): void => {
 		if (num === 1) {
+			let newArr = [...calArray];
+			questionOne.type.map((item: any) => {
+				newArr[item - 1] += 1;
+			})
+			setCalArray(newArr);
+		}
+		if (stepNumber === 15)
+			calculateType(stepNumber, num);
+	}
+	const calculateType = (step: number, num: number): void => {
+		const max = Math.max.apply(null, calArray);
+		let answer = [];
+		let index = -1;
+		console.log(calArray);
+		do {
+			index = calArray.indexOf(max, index + 1);
+			if (index >= 0)
+				answer.push(index + 1);
+		} while (index != -1);
+		if (answer.length > 1) {
 			setType(1);
-		} else if (num === 2) {
-			setType(2);
-		} else if (num === 3) {
-			setType(num);
-		} else if (num === 4) {
-			setType(4);
+			console.log("여러개일 때 작업...");
 		} else {
-			setType(5);
+			setType(answer[0]);
 		}
 	}
 	useEffect(() => {
 		if (stepNumber === 1) {
 			fetchQuestions();
-		} else if (stepNumber === 3) {
+		} else if (stepNumber === 16) {
 			props.getIsTest();
 			props.getType(type);
 		}
@@ -86,7 +99,7 @@ const Question: React.FC<QuestionProps> = (props) => {
 			{questionOne && 
 				<div>
 				<div>그래프</div>
-				<h2>1. <strong>{questionOne.question}</strong></h2>
+				<h2>Q{questionOne.id}. <strong>{questionOne.question}</strong></h2>
 				{questionOne.answer && 
 					questionOne.answer.map((item: any) => {
 						return (<button onClick={() => clickChoice(item.id)}>{item.answerText}</button>)

@@ -32,7 +32,7 @@ const Result: React.FC<ResultProps> = (props) => {
 		try {
 			const response = await fetch(api);
 			const data = await response.json();
-			setResultList(data.questionResult[type]);
+			setResultList(data.questionResult[type - 1]);
 			return data;
 		} catch (error) {
 			console.log(error);
@@ -54,6 +54,13 @@ const Result: React.FC<ResultProps> = (props) => {
 						<p>{resultList.description}</p>
 						<div>
 							<h4>집콕으로 200% 즐기기</h4>
+							<ul>
+							{resultList.recommand && 
+								resultList.recommand.map((item: any) => {
+									return (<li>{item.description}</li>)
+								})
+							}
+							</ul>
 						</div>
 						<div>
 							<h4>테스트 공유하기</h4>
