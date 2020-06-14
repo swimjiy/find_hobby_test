@@ -1,33 +1,23 @@
 import * as React from 'react';
 import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import Button from '../components/Button'
 
 interface ResultProps {
-	stepNumber?: number;
 	type: number;
 }
 
-interface ResultState {
-	resultList: Array<string>;
-}
-
-interface Results {
-	id: number;
-	subTitle: string;
-	title: string;
-	description: string;
-}
 interface IresultList {
 	id: number;
 	subTitle: string;
 	title: string;
 	description: string;
+	recommand: Array<Array<number | string>>;
 }
 
-const Result: React.FC<ResultProps> = (props) => {
-	const [resultList, setResultList] = useState<IresultList | any>([]);
-	const type = props.type ? props.type : -1;
-	const fetchResults = async (): Promise<Array<Results> | undefined> => {
+const Result: React.FC<ResultProps> = ({ type }) => {
+	const [resultList, setResultList] = useState<Partial<IresultList>>({});
+	const fetchResults = async (): Promise<Array<IresultList> | undefined> => {
 		const api = `data/QuestionResult.json`;
 		try {
 			const response = await fetch(api);
@@ -69,11 +59,14 @@ const Result: React.FC<ResultProps> = (props) => {
 							<button>트위터 공유</button>
 							<button>url 공유</button>
 						</div>
-						<Link to="/">테스트 다시하기</Link>
+						<Link to="/">
+							<Button>테스트 다시하기</Button>
+						</Link>
 					</div>
 				</section>
 			}
 		</section>
 	)
 }
+
 export default Result;

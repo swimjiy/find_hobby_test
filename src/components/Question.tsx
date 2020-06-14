@@ -1,54 +1,32 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
-import { Link, Redirect } from 'react-router-dom';
+import Button from '../components/Button'
 
 interface QuestionProps {
-	getIsTest(): void;
 	getType(type: number): void;
 }
 
-interface QuestionState {
-	data: Array<string>;
-	questionList: Array<string>;
-	questionOne: Array<string>;
-	stepNumber: number;
-	count: number;
-	type: number;
-}
-
-interface IQuestion {
-	clickChoice(num: number): void;
-	calculateType(step: number, num: number): void;
-	fetchQuestions(): void;
-	questionList: Array<Questions>;
-}
-
-interface Questions {
-	id: number;
-	question: string;
-	choice?: Array<string>;
-}
 interface IQuestionList {
 	id: number;
 	type: Array<number>;
 	question: string;
-	answer?: Array<Array<number | string>>;
+	answer: Array<Array<number | string>>;
 }
 
-const Question: React.FC<QuestionProps> = (props) => {
-	const [questionList, setQuesList] = useState<IQuestionList[] | any>([]);
-	const [questionOne, setQuesOne] = useState<IQuestionList | any>([]);
-	const [stepNumber, setStepNumber] = useState<number>(1);
+const Question: React.FC<QuestionProps> = ({ getType }) => {
+	const [questionList, setQuesList] = useState<IQuestionList[]>([]);
+	const [question, setQuestion] = useState<Partial<IQuestionList>>({});
+	const [step, setStep] = useState<number>(1);
 	const [type, setType] = useState<number>(0);
-	const [calArray, setCalArray] = useState<Array<number | any>>(new Array(6).fill(0));
+	const [calType, setCalType] = useState<Array<number>>(new Array(6).fill(0));
 	
-	const fetchQuestions = async (): Promise<Array<any> | undefined> => {
+	const fetchQuestions = async (): Promise<Array<IQuestionList> | undefined> => {
 		const api = `data/QuestionData.json`;
 		try {
 			const response = await fetch(api);
 			const data = await response.json();
 			setQuesList(data.questionData);
-			setQuesOne(data.questionData[0]);
+			setQuestion(data.questionData[0]);
 			return data;
 		} catch (error) {
 			console.log(error);
@@ -56,25 +34,27 @@ const Question: React.FC<QuestionProps> = (props) => {
 		}
 	}
 	const clickChoice = (num: number): void => {
-		setStepNumber(stepNumber + 1);
-		setQuesOne(questionList[stepNumber]);
+		setStep(step + 1);
+		setQuestion(questionList[step]);
 		if (num === 1) {
-			let newArr = [...calArray];
-			questionOne.type.map((item: any) => {
-				newArr[item - 1] += 1;
-			})
-			setCalArray(newArr);
+			let newArr = [...calType];
+			{question.type &&
+				question.type.map((item: any) => {
+					newArr[item - 1] += 1;
+				})
+			}
+			setCalType(newArr);
 		}
-		if (stepNumber === 15)
-			calculateType(stepNumber, num);
+		if (step === 15)
+			calculateType();
 	}
-	const calculateType = (step: number, num: number): void => {
-		const max = Math.max.apply(null, calArray);
+	const calculateType = (): void => {
+		const max = Math.max.apply(null, calType);
 		let answer = [];
 		let index = -1;
-		console.log(calArray);
+		console.log(calType);
 		do {
-			index = calArray.indexOf(max, index + 1);
+			index = calType.indexOf(max, index + 1);
 			if (index >= 0)
 				answer.push(index + 1);
 		} while (index != -1);
@@ -86,23 +66,22 @@ const Question: React.FC<QuestionProps> = (props) => {
 		}
 	}
 	useEffect(() => {
-		if (stepNumber === 1) {
+		if (step === 1) {
 			fetchQuestions();
-		} else if (stepNumber === 16) {
-			props.getIsTest();
-			props.getType(type);
+		} else if (step === 16) {
+			getType(type);
 		}
-	}, [stepNumber])
+	}, [step])
 	return (
 		<section>
-			<div>{stepNumber} / 15</div>
-			{questionOne && 
+			<div>{step} / 15</div>
+			{question && 
 				<div>
 				<div>그래프</div>
-				<h2>Q{questionOne.id}. <strong>{questionOne.question}</strong></h2>
-				{questionOne.answer && 
-					questionOne.answer.map((item: any) => {
-						return (<button onClick={() => clickChoice(item.id)}>{item.answerText}</button>)
+				<h2>Q{question.id}. <strong>{question.question}</strong></h2>
+				{question.answer && 
+					question.answer.map((item: any) => {
+						return (<Button onClick={() => clickChoice(item.id)}>{item.answerText}</Button>)
 					})
 				}
 				</div>
@@ -110,4 +89,5 @@ const Question: React.FC<QuestionProps> = (props) => {
 		</section>
 	);
 }
+
 export default Question;
