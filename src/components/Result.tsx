@@ -3,6 +3,10 @@ import { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
 import Button from '../components/Button'
 import styled from 'styled-components';
+import IconLink from '../images/icon-link.svg';
+import IconFacebook from '../images/icon-facebook.svg';
+import IconKakao from '../images/icon-kakaotalk.svg';
+import IconTwitter from '../images/icon-twitter.svg';
 
 interface ResultProps {
 	type: number;
@@ -19,9 +23,11 @@ interface IresultList {
 const Result: React.FC<ResultProps> = ({ type }) => {
 	const [resultList, setResultList] = useState<Partial<IresultList>>({});
 	const fetchResults = async (): Promise<Array<IresultList> | undefined> => {
-		const api = `data/QuestionResult.json`;
+		const api = `http://localhost:3000/data/QuestionResult.json`;
 		try {
+			console.log("data");
 			const response = await fetch(api);
+			console.log(response);
 			const data = await response.json();
 			setResultList(data.questionResult[type - 1]);
 			return data;
@@ -31,7 +37,7 @@ const Result: React.FC<ResultProps> = ({ type }) => {
 		}
 	}
 	useEffect(() => {
-		if (type >= 0)
+		if (type >= 0) 
 			fetchResults();
 	}, [type])
 	return (
@@ -59,10 +65,10 @@ const Result: React.FC<ResultProps> = ({ type }) => {
 						<div>
 							<TitleDepth2>테스트 공유하기</TitleDepth2>
 							<ButtonWrap>
-								<ButtonShare>카카오톡 공유</ButtonShare>
-								<ButtonShare>페이스북 공유</ButtonShare>
-								<ButtonShare>트위터 공유</ButtonShare>
-								<ButtonShare>url 공유</ButtonShare>
+								<ButtonShare className="icon-kakao"><img src={IconKakao} alt="카카오톡 공유"/></ButtonShare>
+								<ButtonShare className="icon-facebook"><img src={IconFacebook} alt="페이스북 공유"/></ButtonShare>
+								<ButtonShare className="icon-twitter"><img src={IconTwitter} alt="트위터 공유"/></ButtonShare>
+								<ButtonShare className="icon-link"><img src={IconLink} alt="url 공유"/></ButtonShare>
 							</ButtonWrap>
 						</div>
 						<Link to="/">
@@ -116,7 +122,6 @@ const Image = styled.div `
 	background-color: #ddd;
 `
 const Section = styled.div `
-	/* margin-top: 4em; */
 	padding: 3em 7% 4em;
 	border-top-left-radius: 35px;
 	border-top-right-radius: 35px;
@@ -126,10 +131,22 @@ const ListWrap = styled.ul `
 	margin-bottom: 4em;
 `
 const List = styled.li `
+	position: relative;
 	margin-left: 1em;
 	margin-bottom: 1em;
 	text-align: left;
 	line-height: 1.5em;
+	&::before {
+		content: '';
+		display: block;
+		position: absolute;
+		left: -0.875em;
+		top: 0.5em;
+		width: 4px;
+		height: 4px;
+		border-radius: 50%;
+		background-color: #3F39E0;
+	}
 `
 const TitleDepth2 = styled.h4 `
 	margin-bottom: 1.5em;
@@ -147,4 +164,16 @@ const ButtonShare = styled.button `
 	border-radius: 1em;
 	border: none;
 	background-color: #FFF29E;
+	&.icon-kakao {
+		background-color: #FFF29E;
+	}
+	&.icon-facebook {
+		background-color: #C9E5FF;
+	}
+	&.icon-twitter {
+		background-color: #C9F8FF;
+	}
+	&.icon-link {
+		background-color: #F2F2F2;
+	}
 `
