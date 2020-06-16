@@ -9,8 +9,8 @@ const Home = () => {
 			<Title>나에게 어울리는<br/>집콕 취미생활 찾기</Title>
 			<SubTitle>내 취미 유형과 집에서 200% 즐기는 방법을 알아보자</SubTitle>
 			<Image>이미지</Image>
-			<Link to="/test">
-				<Button>테스트 시작하기</Button>
+			<Link to="/question">
+				<Button color={"green"}>테스트 시작하기</Button>
 			</Link>
 		</HomeWrap>
 	)
@@ -25,7 +25,6 @@ const HomeWrap = styled.div `
 	min-height: 100vh;
 	padding: 0 5%;
 	background-color: #3F39E0;
-	transform: scale(0.5);
 `
 const Title = styled.h2 `
 	margin-bottom: 0.5em;

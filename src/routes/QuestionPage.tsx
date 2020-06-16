@@ -1,10 +1,10 @@
 import * as React from 'react';
 import { useState } from 'react'
+import { Redirect } from 'react-router-dom';
 import Question from '../components/Question';
-import Result from '../components/Result';
 import Loading from '../components/Loading'
 
-const Test = () => {
+const QuestionPage = () => {
 	const [type, setType] = useState<number>(0);
 	const [isLoading, setIsLoading] = useState<boolean>(false);
 	const getType = (type: number):void => {
@@ -14,13 +14,13 @@ const Test = () => {
 	return (
 		<section>
 			{
-				(type == 0) ? (
+				(type === 0) ? (
 					<Question getType={(type) => getType(type)}/>
 				) : (
 						(!isLoading) ? (
 							<Loading/>
 						) : (
-							<Result type={type}/>
+							<Redirect to={`/result/${ type }`} />
 					)
 				)
 			}
@@ -28,4 +28,4 @@ const Test = () => {
 	)
 }
 
-export default  Test;
+export default  QuestionPage;
