@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/find_hobby_test/static/css/main.5f361e03.chunk.css",
+    "main.js": "/find_hobby_test/static/js/main.fc47e3b4.chunk.js",
+    "main.js.map": "/find_hobby_test/static/js/main.fc47e3b4.chunk.js.map",
+    "runtime-main.js": "/find_hobby_test/static/js/runtime-main.713fc14a.js",
+    "runtime-main.js.map": "/find_hobby_test/static/js/runtime-main.713fc14a.js.map",
+    "static/js/2.39076b21.chunk.js": "/find_hobby_test/static/js/2.39076b21.chunk.js",
+    "static/js/2.39076b21.chunk.js.map": "/find_hobby_test/static/js/2.39076b21.chunk.js.map",
+    "index.html": "/find_hobby_test/index.html",
+    "precache-manifest.fcf1dc514594625ed151e74982f13994.js": "/find_hobby_test/precache-manifest.fcf1dc514594625ed151e74982f13994.js",
+    "service-worker.js": "/find_hobby_test/service-worker.js",
+    "static/css/main.5f361e03.chunk.css.map": "/find_hobby_test/static/css/main.5f361e03.chunk.css.map",
+    "static/js/2.39076b21.chunk.js.LICENSE.txt": "/find_hobby_test/static/js/2.39076b21.chunk.js.LICENSE.txt",
+    "static/media/icon-facebook.svg": "/find_hobby_test/static/media/icon-facebook.a783ae89.svg",
+    "static/media/icon-kakaotalk.svg": "/find_hobby_test/static/media/icon-kakaotalk.d91f52d4.svg",
+    "static/media/icon-link.svg": "/find_hobby_test/static/media/icon-link.e8360725.svg",
+    "static/media/icon-twitter.svg": "/find_hobby_test/static/media/icon-twitter.e3663353.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.713fc14a.js",
+    "static/js/2.39076b21.chunk.js",
+    "static/css/main.5f361e03.chunk.css",
+    "static/js/main.fc47e3b4.chunk.js"
+  ]
+}
