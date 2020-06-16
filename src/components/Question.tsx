@@ -1,6 +1,7 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
 import Button from '../components/Button'
+import styled from 'styled-components';
 
 interface QuestionProps {
 	getType(type: number): void;
@@ -59,7 +60,7 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 				answer.push(index + 1);
 		} while (index != -1);
 		if (answer.length > 1) {
-			setType(1);
+			setType(answer[answer.length - 1]);
 			console.log("여러개일 때 작업...");
 		} else {
 			setType(answer[0]);
@@ -69,25 +70,88 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 		if (step === 1) {
 			fetchQuestions();
 		} else if (step === 16) {
-			getType(type);
+			// setTimeout(() => {
+				getType(type);
+			// }, 1000);
 		}
 	}, [step])
 	return (
-		<section>
-			<div>{step} / 15</div>
+		<QuesWrap>
 			{question && 
-				<div>
-				<div>그래프</div>
-				<h2>Q{question.id}. <strong>{question.question}</strong></h2>
-				{question.answer && 
-					question.answer.map((item: any) => {
-						return (<Button onClick={() => clickChoice(item.id)}>{item.answerText}</Button>)
-					})
-				}
-				</div>
+			<Content>
+				<TextWrap>
+					<Step>{step} / 15</Step>
+					<Graph><GraphInner></GraphInner></Graph>
+					<Title>Q{question.id}. <strong>{question.question}</strong></Title>
+				</TextWrap>
+				<ButtonWrap>
+					{question.answer && 
+						question.answer.map((item: any) => {
+							return (<Button onClick={() => clickChoice(item.id)}>{item.answerText}</Button>)
+						})
+					}
+				</ButtonWrap>
+			</Content>
 			}
-		</section>
+		</QuesWrap>
 	);
 }
 
 export default Question;
+
+const QuesWrap = styled.div `
+	display: flex;
+	flex-direction: column;
+	justify-content: center; 
+	min-height: 100vh;
+	background-color: #fff;
+`
+const Step = styled.p `
+	margin-top:2em;
+	margin-bottom: 3em;
+	font-size: 1.125em;
+	font-weight: 400;
+	color: #000;
+`
+const Title = styled.div `
+	width: 90%;
+	margin: 0 auto;
+	margin-bottom: 0.5em;
+	font-size: 1.5em;
+	font-weight: 700;
+	line-height: 1.5em;
+	color: #000;
+`
+const Content = styled.div `
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+`
+const Graph = styled.div `
+	width: 90%;
+	height: 0.983em;
+	margin: 0 auto 5em;
+	border-radius: 2em;
+	background-color: #F8F8F8;
+`
+const GraphInner = styled.div `
+	width: 40%;
+	height: 100%;
+	margin-bottom: 1em;
+	border-radius: 2em;
+	background-color: #3F39E0;
+`
+const TextWrap = styled.div `
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-start;
+	padding: 0 5%;
+`
+const ButtonWrap = styled.div `
+	padding: 1em 5% 4em;
+	border-top-left-radius: 35px;
+	border-top-right-radius: 35px;
+	background-color: #F8F8F8;
+`
