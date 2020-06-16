@@ -2,6 +2,7 @@ import * as React from 'react'
 import { useState, useEffect } from 'react'
 import Button from '../components/Button'
 import styled from 'styled-components';
+import Graph from '../components/Graph'
 
 interface QuestionProps {
 	getType(type: number): void;
@@ -41,7 +42,7 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 			let newArr = [...calType];
 			{question.type &&
 				question.type.map((item: any) => {
-					newArr[item - 1] += 1;
+					return (newArr[item - 1] += 1);
 				})
 			}
 			setCalType(newArr);
@@ -58,10 +59,9 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 			index = calType.indexOf(max, index + 1);
 			if (index >= 0)
 				answer.push(index + 1);
-		} while (index != -1);
+		} while (index !== -1);
 		if (answer.length > 1) {
 			setType(answer[answer.length - 1]);
-			console.log("여러개일 때 작업...");
 		} else {
 			setType(answer[0]);
 		}
@@ -70,9 +70,7 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 		if (step === 1) {
 			fetchQuestions();
 		} else if (step === 16) {
-			// setTimeout(() => {
-				getType(type);
-			// }, 1000);
+			getType(type);
 		}
 	}, [step])
 	return (
@@ -80,9 +78,9 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 			{question && 
 			<Content>
 				<TextWrap>
-					<Step>{step} / 15</Step>
-					<Graph><GraphInner></GraphInner></Graph>
-					<Title>Q{question.id}. <strong>{question.question}</strong></Title>
+					<Step><strong className="txt-bold">{step}</strong> / 15</Step>
+					<Graph step={step}/>
+					<Title><span className="txt-light">Q{question.id}.</span><strong>{question.question}</strong></Title>
 				</TextWrap>
 				<ButtonWrap>
 					{question.answer && 
@@ -112,6 +110,9 @@ const Step = styled.p `
 	font-size: 1.125em;
 	font-weight: 400;
 	color: #000;
+	.txt-bold {
+		font-weight: 700;
+	}
 `
 const Title = styled.div `
 	width: 90%;
@@ -121,26 +122,15 @@ const Title = styled.div `
 	font-weight: 700;
 	line-height: 1.5em;
 	color: #000;
+	.txt-light {
+		font-weight: 400;
+	}
 `
 const Content = styled.div `
 	flex: 1;
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-`
-const Graph = styled.div `
-	width: 90%;
-	height: 0.983em;
-	margin: 0 auto 5em;
-	border-radius: 2em;
-	background-color: #F8F8F8;
-`
-const GraphInner = styled.div `
-	width: 40%;
-	height: 100%;
-	margin-bottom: 1em;
-	border-radius: 2em;
-	background-color: #3F39E0;
 `
 const TextWrap = styled.div `
 	flex: 1;
