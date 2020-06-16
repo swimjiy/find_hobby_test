@@ -7,7 +7,7 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 const Button: React.SFC<ButtonProps> = ({ color, children, ...props }) => {
 	return (
-		<StyledButton style={{color}} {...props}>{children}</StyledButton>
+		<StyledButton color={color} {...props}>{children}</StyledButton>
 	)
 }
 
