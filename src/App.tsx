@@ -1,23 +1,36 @@
 import * as React from 'react';
-import { BrowserRouter, Link, Route, Switch, Redirect } from 'react-router-dom';
-import logo from './logo.svg';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './App.css';
 import Home from './routes/Home'
-import Test from './routes/Test';
+import QuestionPage from './routes/QuestionPage';
+import ResultPage from './routes/ResultPage';
 import styled from 'styled-components';
-import { Transition } from 'react-transition-group';
+import { TransitionGroup, CSSTransition } from 'react-transition-group';
 
 function App() {
   return (
-    <Body className="App">
-		<BrowserRouter>
-			<Switch>
-			<Route exact path="/" component={Home}/>
-			<Route path="/test" component={Test}/>
-			<Redirect path="*" to="/" />
-			</Switch>
+	  <BrowserRouter>
+			<Route render={({ location }) => {
+				return (
+					<Body className="App">
+						<TransitionGroup component={null}>
+							<CSSTransition
+								timeout={300}
+								classNames="page"
+								key={location.key}
+							>
+								<Switch location={location}>
+									<Route exact path="/" component={Home}/>
+									<Route path="/question" component={QuestionPage}/>
+									<Route path="/result/:id" component={ResultPage}/>
+									{/* <Redirect path="*" to="/" /> */}
+								</Switch>
+							</CSSTransition>
+						</TransitionGroup>
+					</Body>
+				)
+			}} />
 		</BrowserRouter>
-    </Body>
   );
 }
 
@@ -25,6 +38,20 @@ export default App;
 
 const Body = styled.div`
 	width: 100%;
+	.page-enter {
+		opacity: 0.01;
+	}
+	.page-enter.page-enter-active {
+		opacity: 1;
+		transition: opacity 300ms ease-in;
+	}
+	.page-exit {
+		opacity: 1;
+	}
+	.page-exit.page-exit-active {
+		opacity: 0.01;
+		transition: opacity 300ms ease-in;
+	}
 	@media only screen and (min-width: 1200px) {
 		width: 100%;
 		max-width: 1200px;
