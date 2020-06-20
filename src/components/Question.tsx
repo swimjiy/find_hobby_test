@@ -1,8 +1,9 @@
 import * as React from 'react'
 import { useState, useEffect } from 'react'
 import Button from '../components/Button'
-import styled from 'styled-components';
+import styled from 'styled-components'
 import Graph from '../components/Graph'
+import QuestionData from '../data/QuestionData.json'
 
 interface QuestionProps {
 	getType(type: number): void;
@@ -22,29 +23,36 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 	const [type, setType] = useState<number>(0);
 	const [calType, setCalType] = useState<Array<number>>(new Array(6).fill(0));
 	
-	const fetchQuestions = async (): Promise<Array<IQuestionList> | undefined> => {
-		const api = `data/QuestionData.json`;
-		try {
-			const response = await fetch(api);
-			const data = await response.json();
-			setQuesList(data.questionData);
-			setQuestion(data.questionData[0]);
-			return data;
-		} catch (error) {
-			console.log(error);
-			return error.message;
-		}
+	const fetchQuestions = (data: any):any => {
+		setQuesList(data.questionData);
+		setQuestion(data.questionData[0]);
 	}
+	// const fetchQuestions = async (): Promise<Array<IQuestionList> | undefined> => {
+		// const api = '/data/QuestionData.json';
+		// setQuesList(data.questionData);
+		// setQuestion(data.questionData[0]);
+		// try {
+		// 	console.log(api);
+		// 	const response = await fetch(api);
+		// 	const data = await response.json();
+		// 	setQuesList(data.questionData);
+		// 	setQuestion(data.questionData[0]);
+			
+		// 	return data;
+		// } catch (error) {
+		// 	console.log(error);
+		// 	return error.message;
+		// }
+	// }
 	const clickChoice = (num: number): void => {
 		setStep(step + 1);
 		setQuestion(questionList[step]);
 		if (num === 1) {
 			let newArr = [...calType];
-			{question.type &&
+			question.type && 
 				question.type.map((item: any) => {
 					return (newArr[item - 1] += 1);
 				})
-			}
 			setCalType(newArr);
 		}
 		if (step === 15)
@@ -68,11 +76,11 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 	}
 	useEffect(() => {
 		if (step === 1) {
-			fetchQuestions();
+			fetchQuestions(QuestionData);
 		} else if (step === 16) {
 			getType(type);
 		}
-	}, [step])
+	}, [step, getType, type])
 	return (
 		<QuesWrap>
 			{question && 
