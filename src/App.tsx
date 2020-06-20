@@ -23,7 +23,7 @@ function App() {
 									<Route exact path="/" component={Home}/>
 									<Route path="/question" component={QuestionPage}/>
 									<Route path="/result/:id" component={ResultPage}/>
-									{/* <Redirect path="*" to="/" /> */}
+									<Redirect path="*" to="/" />
 								</Switch>
 							</CSSTransition>
 						</TransitionGroup>
