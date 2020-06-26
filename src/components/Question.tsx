@@ -27,23 +27,6 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 		setQuesList(data.questionData);
 		setQuestion(data.questionData[0]);
 	}
-	// const fetchQuestions = async (): Promise<Array<IQuestionList> | undefined> => {
-		// const api = '/data/QuestionData.json';
-		// setQuesList(data.questionData);
-		// setQuestion(data.questionData[0]);
-		// try {
-		// 	console.log(api);
-		// 	const response = await fetch(api);
-		// 	const data = await response.json();
-		// 	setQuesList(data.questionData);
-		// 	setQuestion(data.questionData[0]);
-			
-		// 	return data;
-		// } catch (error) {
-		// 	console.log(error);
-		// 	return error.message;
-		// }
-	// }
 	const clickChoice = (num: number): void => {
 		setStep(step + 1);
 		setQuestion(questionList[step]);

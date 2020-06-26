@@ -23,34 +23,16 @@ interface IresultList {
 
 const Result: React.FC<ResultProps> = ({ type }) => {
 	const [resultList, setResultList] = useState<Partial<IresultList>>({});
-
-	// const fetchResults = (data: any):any => {
-	// 	setResultList(data.questionResult[type - 1]);
-	// }
-	// const questionResults:any = QuestionResult.questionResult;
-	// if (type >= 0) 
+	
 	const fetchResults = useCallback((QuestionResult, type) => {
-		// if (type >= 0)
-			setResultList(QuestionResult.questionResult[type - 1]);
+		setResultList(QuestionResult.questionResult[type - 1]);
 	}, []);
-	// const fetchResults = async (): Promise<Array<IresultList> | undefined> => {
-	// 	const api = `http://localhost:3000/data/QuestionResult.json`;
-	// 	try {
-	// 		console.log("data");
-	// 		const response = await fetch(api);
-	// 		console.log(response);
-	// 		const data = await response.json();
-	// 		setResultList(data.questionResult[type - 1]);
-	// 		return data;
-	// 	} catch (error) {
-	// 		console.log(error);
-	// 		return error.message;
-	// 	}
-	// }
+
 	useEffect(() => {
 		if (type >= 0) 
 			fetchResults(QuestionResult, type);
 	}, [type, fetchResults])
+
 	return (
 		<section>
 			{resultList &&
