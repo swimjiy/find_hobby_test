@@ -45,7 +45,7 @@ const Question: React.FC<QuestionProps> = ({ getType }) => {
 		const max = Math.max.apply(null, calType);
 		let answer = [];
 		let index = -1;
-		console.log(calType);
+		// console.log(calType);
 		do {
 			index = calType.indexOf(max, index + 1);
 			if (index >= 0)
