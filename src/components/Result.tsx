@@ -8,6 +8,7 @@ import IconLink from '../images/icon-link.svg';
 import IconFacebook from '../images/icon-facebook.svg';
 import IconKakao from '../images/icon-kakaotalk.svg';
 import IconTwitter from '../images/icon-twitter.svg';
+import ImgMain from '../images/img-main.png'
 
 interface ResultProps {
 	type: number;
@@ -39,7 +40,7 @@ const Result: React.FC<ResultProps> = ({ type }) => {
 				<section>
 					<TextWarp>
 						<Title>나의 집콕 유형은</Title>
-						<Image>이미지</Image>
+						<Image><img src={ImgMain}/></Image>
 						<SubTitle>{resultList.subTitle}</SubTitle>
 						<Name>{resultList.title}</Name>
 						<Description>{resultList.description}</Description>
@@ -91,6 +92,7 @@ const SubTitle = styled.p `
 	margin-bottom: 1em;
 	font-size: 0.875em;
 	color: #000;
+	text-align: center;
 `
 const Name = styled.h3 `
 	margin-bottom: 3em;
@@ -98,6 +100,7 @@ const Name = styled.h3 `
 	font-size: 1.125em;
 	font-weight: 700;
 	color: #fff;
+	text-align: center;
 	border-radius: 1em;
 	background-color: #3F39E0;
 `
@@ -110,9 +113,11 @@ const Description = styled.p `
 `
 const Image = styled.div `
 	width: 100%;
-	height: 14em;
-	margin-bottom: 3em;
-	background-color: #ddd;
+	max-width: 25em;
+	margin: 0 auto;
+	img {
+		width: 100%;
+	}
 `
 const Section = styled.div `
 	padding: 3em 7% 4em;
