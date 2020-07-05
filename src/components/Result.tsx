@@ -40,7 +40,7 @@ const Result: React.FC<ResultProps> = ({ type }) => {
 				<section>
 					<TextWarp>
 						<Title>나의 집콕 유형은</Title>
-						<Image><img src={ImgMain}/></Image>
+						<Image><img src={ImgMain} alt=""/></Image>
 						<SubTitle>{resultList.subTitle}</SubTitle>
 						<Name>{resultList.title}</Name>
 						<Description>{resultList.description}</Description>
