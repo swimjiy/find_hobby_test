@@ -1,6 +1,7 @@
 import * as React from 'react';
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useRef } from 'react'
 import { Link } from 'react-router-dom';
+import CopyToClipboard from 'react-copy-to-clipboard'
 import QuestionResult from '../data/QuestionResult.json'
 import Button from '../components/Button'
 import styled from 'styled-components';
@@ -28,6 +29,11 @@ const Result: React.FC<ResultProps> = ({ type }) => {
 	const fetchResults = useCallback((QuestionResult, type) => {
 		setResultList(QuestionResult.questionResult[type - 1]);
 	}, []);
+
+	const url = window.location.href;
+	const alertCopied = () => {
+		alert('URL이 복사되었습니다!');
+	}
 
 	useEffect(() => {
 		if (type >= 0) 
@@ -62,7 +68,9 @@ const Result: React.FC<ResultProps> = ({ type }) => {
 								<ButtonShare className="icon-kakao"><img src={IconKakao} alt="카카오톡 공유"/></ButtonShare>
 								<ButtonShare className="icon-facebook"><img src={IconFacebook} alt="페이스북 공유"/></ButtonShare>
 								<ButtonShare className="icon-twitter"><img src={IconTwitter} alt="트위터 공유"/></ButtonShare>
-								<ButtonShare className="icon-link"><img src={IconLink} alt="url 공유"/></ButtonShare>
+								<CopyToClipboard text={url} onCopy={alertCopied}>
+									<ButtonShare className="icon-link"><img src={IconLink} alt="url 공유"/></ButtonShare>
+								</CopyToClipboard>
 							</ButtonWrap>
 						</div>
 						<Link to="/">
