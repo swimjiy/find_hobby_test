@@ -1,6 +1,6 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "short_name": "집콕 취미생활 찾기",
+  "name": "나에게 어울리는 집콕 취미생활 찾기",
   "icons": [
     {
       "src": "favicon.ico",
