@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { useState, useEffect, useCallback, useRef } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { Link } from 'react-router-dom';
 import CopyToClipboard from 'react-copy-to-clipboard'
 import QuestionResult from '../data/QuestionResult.json'
