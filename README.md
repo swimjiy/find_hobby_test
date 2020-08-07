@@ -10,11 +10,6 @@ URL : https://hopeful-mcclintock-ad1f1b.netlify.app
 
 
 
-### ⏰ 개발 기간
-
-2020.06.01 ~ 2020.06.30 (3W)
-
-
 
 ### 💻 사용 스택
 - React
