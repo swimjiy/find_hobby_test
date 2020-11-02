@@ -1,6 +1,7 @@
 {
+  "name": "find-hobby-test",
+  "description": "Psychological test to find hobbies at home",
   "homepage": "https://hopeful-mcclintock-ad1f1b.netlify.com",
-  "name": "hobby-ts",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
